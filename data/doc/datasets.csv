@@ -1,0 +1,4 @@
+PackageName,Dataset,Title,Rows,Columns,Description,TimeStamp,RawData,ZippedData
+SummaryJointStation_23a,GE_3yr_180d_500md,Data [GE_3yr_180d_500md] of [SummaryJointStation_23a],30000,4,,2023-05-08,data\raw\SummaryJointStation_23a\GE_3yr_180d_500md.csv,..\..\..\..\..\..\C:\Users\t2276\.julia\dev\CWBProjectSummaryDatasets\data\SummaryJointStation_23a\GE_3yr_180d_500md.gz
+SummaryJointStation_23a,GM_3yr_180d_500md,Data [GM_3yr_180d_500md] of [SummaryJointStation_23a],30000,4,,2023-05-08,data\raw\SummaryJointStation_23a\GM_3yr_180d_500md.csv,..\..\..\..\..\..\C:\Users\t2276\.julia\dev\CWBProjectSummaryDatasets\data\SummaryJointStation_23a\GM_3yr_180d_500md.gz
+SummaryJointStation_23a,MIX_3yr_180d_500md,Data [MIX_3yr_180d_500md] of [SummaryJointStation_23a],30000,4,,2023-05-08,data\raw\SummaryJointStation_23a\MIX_3yr_180d_500md.csv,..\..\..\..\..\..\C:\Users\t2276\.julia\dev\CWBProjectSummaryDatasets\data\SummaryJointStation_23a\MIX_3yr_180d_500md.gz
