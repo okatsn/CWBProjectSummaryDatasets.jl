@@ -1,0 +1,3 @@
+[deps]
+CWBProjectSummaryDatasets = "b38d3104-45cc-42ed-bfee-2aefedd5b40b"
+Documenter = "e30172f5-a6a5-5a46-863b-614d45cd2de4"
