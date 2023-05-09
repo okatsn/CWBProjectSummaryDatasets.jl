@@ -1,7 +1,7 @@
 name = "CWBProjectSummaryDatasets"
 uuid = "b38d3104-45cc-42ed-bfee-2aefedd5b40b"
 authors = ["okatsn <okatsn@gmail.com> and contributors"]
-version = "0.0.1"
+version = "0.1.0"
 
 [deps]
 SmallDatasetMaker = "7016d903-ac20-4882-9d97-75c232100024"
@@ -12,8 +12,9 @@ julia = "1.8"
 
 [extras]
 CompatHelperLocal = "5224ae11-6099-4aaa-941d-3aab004bd678"
+DataFrames = "a93c6f00-e57d-5684-b7b6-d8193f3e46c0"
 Documenter = "e30172f5-a6a5-5a46-863b-614d45cd2de4"
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
 
 [targets]
-test = ["Test", "Documenter", "CompatHelperLocal"]
+test = ["Test", "Documenter", "CompatHelperLocal", "DataFrames"]
