@@ -1,9 +1,10 @@
 name = "CWBProjectSummaryDatasets"
 uuid = "b38d3104-45cc-42ed-bfee-2aefedd5b40b"
 authors = ["okatsn <okatsn@gmail.com> and contributors"]
-version = "0.1.1"
+version = "0.2.0"
 
 [deps]
+OkFiles = "b25a35d4-863d-483c-9fa1-95480bd075d2"
 SmallDatasetMaker = "7016d903-ac20-4882-9d97-75c232100024"
 
 [compat]
