@@ -87,3 +87,10 @@ for fpath in fpaths
 
     CSV.write(pathnorepeat(fpath; suffix_fun=n -> "_compat_$n"), df1)
 end
+
+
+# using SmallDatasetMaker
+# allfiles = filelist(r"\.csv", "SummaryJointStation")
+# for fpath in allfiles
+#     compress_save(CWBProjectSummaryDatasets, fpath)
+# end
