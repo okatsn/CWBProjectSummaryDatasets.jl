@@ -12,7 +12,7 @@ end
 CWBProjectSummaryDatasets.datasets() = SmallDatasetMaker.datasets(CWBProjectSummaryDatasets)
 
 
-
+using DataFrames
 include("viewcol.jl")
 export viewcol
 
