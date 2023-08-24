@@ -4,6 +4,17 @@ using Test
 using CWBProjectSummaryDatasets
 using OkFiles
 
+"""
+`viewcol(df, colnm) = df[!, colnm]`
+"""
+viewcol(df, colnm) = df[!, colnm]
+
+function strictjoin(df1, df2; kwargs...)
+    dfj = outerjoin(df1, df2; order=:left, makeunique=false, kwargs...)
+    disallowmissing!(dfj) # This step make sure the `on = cols` is everywhere.
+end
+
+
 # SETME:
 # fpath = "SummaryJointStation/PhaseTestEQK_GE_3yr_180d_500md_2023A10.csv"
 fpaths = filelist(r"PhaseTestEQK.*\d{2}\.csv", "SummaryJointStation")

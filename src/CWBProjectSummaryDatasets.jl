@@ -11,11 +11,4 @@ end
 
 CWBProjectSummaryDatasets.datasets() = SmallDatasetMaker.datasets(CWBProjectSummaryDatasets)
 
-
-using DataFrames
-include("viewcol.jl")
-export viewcol
-
-include("strictjoin.jl")
-export strictjoin
 end
