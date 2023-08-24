@@ -67,7 +67,7 @@ for fpath in fpaths
     end
 
     # Unstack DataFrames
-    myround(str::AbstractString; kwargs...) = identity
+    myround(str::AbstractString; kwargs...) = identity(str) # This is by-far useless since InStation is not going to appear on the final DataFrame
     myround(otherwise; kwargs...) = round(otherwise; kwargs...)
 
     df1 = DataFrame(
