@@ -1,3 +1,8 @@
+# Instruction
+# - Activate /docs
+# - Make sure the current directory is CWBProjectSummaryDatasets
+# - Put raw CSVs into SummaryJointStation
+# - Run entire script
 using DataFrames, CSV
 using Chain
 using Test
