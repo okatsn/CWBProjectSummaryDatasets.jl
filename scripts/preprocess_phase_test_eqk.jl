@@ -55,7 +55,18 @@ for fpath in fpaths
     myround(str::AbstractString; kwargs...) = identity
     myround(otherwise; kwargs...) = round(otherwise; kwargs...)
 
-    df1 = DataFrame()
+    df1 = DataFrame(
+        :eventTimeStr => String[],
+        :eventSize => Float64[],
+        :eventLat => Float64[],
+        :eventLon => Float64[],
+        :eventId => Int64[],
+        :probabilityTimeStr => String[],
+        :probabilityMean => Float64[],
+        :prp => String[],
+        :eventDist => String[],
+        :validRatio => String[],
+    )
     for subdf in dfgroups
         dfs = [(
             dfk = unstack(subdf, constcols, colkey, tag; renamecols=(x -> Symbol("$(tag)_$x")));
@@ -69,6 +80,8 @@ for fpath in fpaths
             f(df1, df2) = strictjoin(df1, df2; on=constcols)
             dfl = reduce(f, dfs)
         end
+
+        @test ncol(df1) == ncol(dfl)
         append!(df1, dfl)
     end
 
