@@ -47,8 +47,7 @@ for fpath in fpaths
     df = CSV.read(fpath, DataFrame)
 
     # generate event ID
-    eachevent = groupby(df, [:eventTimeStr, :eventSize, :eventLat, :eventLon])
-    transform!(eachevent, groupindices => :eventId)
+    transform!(df, AsTable([:eventTimeStr, :eventSize, :eventLat, :eventLon]) => ByRow(hash) => :eventId)
 
 
     # Tests
@@ -76,7 +75,7 @@ for fpath in fpaths
         :eventSize => Float64[],
         :eventLat => Float64[],
         :eventLon => Float64[],
-        :eventId => Int64[],
+        :eventId => UInt[],
         :probabilityTimeStr => String[],
         :probabilityMean => Float64[],
         :prp => String[],
