@@ -2,9 +2,11 @@ using DataFrames, CSV
 using Chain
 using Test
 using CWBProjectSummaryDatasets
+using OkFiles
 
 # SETME:
-df = CSV.read("SummaryJointStation/PhaseTestEQK_GE_3yr_180d_500md_2023A10.csv", DataFrame)
+# fpath = "SummaryJointStation/PhaseTestEQK_GE_3yr_180d_500md_2023A10.csv"
+fpaths = filelist(r"PhaseTestEQK.*\d{2}\.csv", "SummaryJointStation")
 
 varicols = [:eventDist, :validRatio] # columns that are varied among dataframes grouped by :InStation for each :eventId.
 colkey = :InStation # Column key for unstack
@@ -23,63 +25,52 @@ constcols = [
     # names(df, Cols(r"^event", r"probability"))
 ] # columns that are NOT varied among dataframes grouped by :InStation for each :eventId.
 
-# generate event ID
-eachevent = groupby(df, [:eventTimeStr, :eventSize, :eventLat, :eventLon])
-transform!(eachevent, groupindices => :eventId)
+
+# Load DataFrame
+for fpath in fpaths
+    df = CSV.read(fpath, DataFrame)
+
+    # generate event ID
+    eachevent = groupby(df, [:eventTimeStr, :eventSize, :eventLat, :eventLon])
+    transform!(eachevent, groupindices => :eventId)
 
 
-# Tests
-dfgroups = groupby(df, [:eventId, :prp])
-subdf = dfgroups[5] # TODO: deleteme
-# [length(groupby(subdf, :InStation)) for subdf in dfgroups] # see which group of eventId has multiple groups of InStation
+    # Tests
+    dfgroups = groupby(df, [:eventId, :prp])
+    # subdf = dfgroups[5]
+    # [length(groupby(subdf, :InStation)) for subdf in dfgroups] # see which group of eventId has multiple groups of InStation
 
-
-
-for subdf in dfgroups
-    dfs = groupby(subdf, :InStation)
-    @testset "Make sure the time series is identical for all df in dfs" begin
-        # For every subgroups (grouped by InStation) of each event, probability time and the values should be identical (they are event specific).
-        for targetcol in [:probabilityTimeStr, :probabilityMean]
-            targets = viewcol.([dfs...], targetcol)
-            @test all(isequal.(Ref(targets[1]), targets))
+    for subdf in dfgroups
+        dfs = groupby(subdf, :InStation)
+        @testset "Make sure the time series is identical for all df in dfs" begin
+            # For every subgroups (grouped by InStation) of each event, probability time and the values should be identical (they are event specific).
+            for targetcol in [:probabilityTimeStr, :probabilityMean]
+                targets = viewcol.([dfs...], targetcol)
+                @test all(isequal.(Ref(targets[1]), targets))
+            end
         end
     end
-end
 
-# Unstack DataFrames
+    # Unstack DataFrames
+    myround(str::AbstractString; kwargs...) = identity
+    myround(otherwise; kwargs...) = round(otherwise; kwargs...)
 
-for subdf in dfgroups
-    dfs = [unstack(subdf, constcols, colkey, tag; renamecols=(x -> Symbol("$(tag)_$x"))) for tag in varicols]
+    df1 = DataFrame()
+    for subdf in dfgroups
+        dfs = [(
+            dfk = unstack(subdf, constcols, colkey, tag; renamecols=(x -> Symbol("$(tag)_$x")));
+            select!(dfk, Not(Regex("^$tag")),
+                AsTable(Regex("^$tag")) =>
+                    ByRow(args -> join(myround.([args...]; digits=2), ",")) =>
+                        tag)
+        ) for tag in varicols]
 
-    if length(dfs) > 1
-        f(df1, df2) = strictjoin(df1, df2; on=constcols)
-        reduce(f, dfs)
+        if length(dfs) > 1
+            f(df1, df2) = strictjoin(df1, df2; on=constcols)
+            dfl = reduce(f, dfs)
+        end
+        append!(df1, dfl)
     end
 
-end
-
-
-
-
-
-
-
-combine(groupby(df, [:eventId]), nrow)
-
-
-
-
-# Events in the cluster
-# subdf = groupby(dfg, :eventId)[1]
-for subdf in groupby(dfg, :eventId)
-    groupby
-end
-
-(groupby(dfg, [:eventId, :InStation]))
-
-@chain dfg begin
-    groupby([:eventId, :InStation])
-    combine([:eventId, :InStation] .=> unique; renamecols=false)
-    groupby(:eventId)
-    combine()
+    CSV.write(pathnorepeat(fpath; suffix_fun=n -> "_compat_$n"), df1)
 end
