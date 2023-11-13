@@ -43,6 +43,9 @@ constcols = [
 
 
 # Load DataFrame
+# fpath = first(fpaths) # CHECKPOINT: Go to MagTIP-2022's jointstation_summary.m, do eventFilter with max/min Rc and min/max Mc to get min_/max_Neq. Please refer to FittingDegreeSummary.m (or plotFittingDegree.m).
+# - Add "ForecastingPhase" column? Or
+# - The earthquakes (`EQKs`) in [JointStation] are those obtained from maximum Rc and minimum Mc
 for fpath in fpaths
     df = CSV.read(fpath, DataFrame)
 
