@@ -110,5 +110,5 @@ end
 using SmallDatasetMaker
 allfiles = filelist(r"\.csv", "SummaryJointStation")
 for fpath in allfiles
-    compress_save(CWBProjectSummaryDatasets, fpath)
+    compress_save(CWBProjectSummaryDatasets, fpath; targeting_mod = true)
 end
