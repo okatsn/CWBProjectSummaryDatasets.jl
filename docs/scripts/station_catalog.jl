@@ -6,7 +6,7 @@ using OkFiles
 using SmallDatasetMaker
 
 # Unified file name to avoid too many duplicated compressed at one commit.
-file_catalog = "EventMag5/Catalog.csv"
+file_catalog = "EventMag4/Catalog.csv"
 file_station = "GeoEMStation/StationInfo.csv"
 
 # # Load the data to see if they are fine
